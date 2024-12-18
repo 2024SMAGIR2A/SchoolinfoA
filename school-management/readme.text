@@ -1,0 +1,8 @@
+1-create a data base witch calls 'school-management'
+2-connect data base with our app
+3-tap this command "php artisan migrate" to create tables in our data base 
+4-tap this command "php artisan db:seed --class=CreateAllAccountSeeder"
+5-tap this command "php artisan serv" to start the server"
+6-connect now for admin('email' => 'admin@schoolmg.com','password' => '1357SchoolMG@'), 
+              for student ('matricule'=>"MAGIR011020",'password' => '1357Student@')
+            
