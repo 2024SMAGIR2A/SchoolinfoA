@@ -26,7 +26,7 @@
             <div class="card-header text-center">
                 <a href="
                 {{ route('login') }}
-                 " class="h1"><b> SchoolMG </b></a>
+                 " class="h1"><b> PIGIER CI </b></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Connexion</p>

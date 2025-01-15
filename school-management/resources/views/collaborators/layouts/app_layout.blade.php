@@ -153,13 +153,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('teacher.index') }}" class="nav-link {{ currentRouteActive('teacher.index','teacher.create','teacher.edit') }}">
+                            <a href="{{ route('teacher.index') }}"
+                                class="nav-link {{ currentRouteActive('teacher.index', 'teacher.create', 'teacher.edit') }}">
                                 <i class="nav-icon fas fa-user-tie"></i>
                                 <p>
                                     Enseignants
                                 </p>
                             </a>
-                           
+
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">
@@ -232,8 +233,9 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
+                        <li class="nav-item {{ menuOpen('permissions.index', 'permissions.store', 'permissions.create','roles.index', 'roles.store', 'roles.create','roles.edit','roles.show','roles.update') }}">
+                            <a href=""
+                                class="nav-link {{ currentRouteActive('permissions.index', 'permissions.store', 'permissions.create','roles.index', 'roles.store', 'roles.create','roles.edit','roles.show','roles.update') }}">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>
                                     Configurations
@@ -241,15 +243,16 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{ route('permissions.index') }}"
+                                        class="nav-link {{ currentRouteActive('permissions.index', 'permissions.store', 'permissions.create') }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                           Permissions
+                                            Permissions
                                         </p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{ route('roles.index') }}" class="nav-link {{ currentRouteActive('roles.index', 'roles.store', 'roles.create','roles.edit','roles.show','roles.update') }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
                                             Rôles
@@ -260,7 +263,7 @@
                                     <a href="" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                            spécialités 
+                                            spécialités
                                         </p>
                                     </a>
                                 </li>
@@ -268,7 +271,7 @@
                                     <a href="" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                            Niveaux 
+                                            Niveaux
                                         </p>
                                     </a>
                                 </li>
@@ -276,7 +279,7 @@
                                     <a href="" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                           Postes  
+                                            Postes
                                         </p>
                                     </a>
                                 </li>
@@ -2758,6 +2761,56 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+        //action handle select
+        function actionHandleSelect(item) {
+
+
+            //check whether action is equaled 'Choisir une action'
+
+            if (item.value == 'Choisir une action') {
+                $(".select-action").prop("selectedIndex", 0);
+            } else { //check whether action is not delete action
+                if (item.value.split(' ')[0] != 'delete') {
+                    if (item.value.split(' ')[0] == 'preview') {
+                        window.open(item.value.split(' ')[1], '_blank')
+                    } else {
+                        window.location = item.value.split(' ')[1];
+                    }
+
+                } else {
+                    //item.preventDefault();
+                    //console.log(item.value.split(' ')[1]);
+                    Swal.fire({
+                        title: 'Suppression de donnée',
+                        text: "Êtes-vous sûr ?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        cancelButtonText: 'Non,plus tard',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Oui, supprimé!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = item.value.split(' ')[1]
+                            Swal.fire(
+                                'supprimée!',
+                                'Votre donnée a été supprimée.',
+                                'success'
+                            )
+                        } else {
+                            // i use this to reset and the first item of select-action
+                            $(".select-action").prop("selectedIndex", 0);
+                            //window.location.href = '{{ Request::url() }}';
+                        }
+                    })
+                }
+            }
+            //console.log(item.value);
+            //
+
+
+        }
+
         $(function() {
             /*$(document).on('click','#delete',function(e){
                 e.preventDefault();
@@ -2803,6 +2856,8 @@
                     }
                 })
             });
+
+
             /*$(document).on('click','.delete-select',function(e){
                 e.preventDefault();
                 var link = $(this)[0].value.split(' ')[1];
